@@ -13,8 +13,9 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
+export HOME_PATH="/Users/milex"
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/milex/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -155,15 +156,14 @@ alias mnstatus="sudo sytemctl status mongod"
 alias mnstop="sudo sytemctl stop mongod"
 
 # Docker
-alias dgrep="docker ps| grep"
+alias dgrep="docker ps | grep"
 
 export CODES_PATH="~/Documents/codes"
 
 # Project specific
-alias start_ex_admin="cd $CODES_PATH/ex-admin && npm run dev"
 alias start_corgi_services="cd $CODES_PATH/deploy-local && docker-compose up"
 
-[[ -s "/Users/milex/.gvm/scripts/gvm" ]] && source "/Users/milex/.gvm/scripts/gvm"
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
 export WORK_PATH="~/Documents/corgi"
 export BLOCKCHAIN_PATH="$WORK_PATH/blockchain"
@@ -189,14 +189,16 @@ eval "$(zoxide init --cmd cd zsh)"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+
+export GOOGLE_SDK_PATH="$HOME_PATH/Downloads/google-cloud-sdk"
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/milex/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/milex/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$GOOGLE_SDK_PATH/path.zsh.inc" ]; then . "$GOOGLE_SDK_PATH/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/milex/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/milex/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$GOOGLE_SDK_PATH/completion.zsh.inc" ]; then . "$GOOGLE_SDK_PATH/completion.zsh.inc"; fi
 
 # bun completions
-[ -s "/Users/milex/.bun/_bun" ] && source "/Users/milex/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -276,7 +278,7 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # pnpm
-export PNPM_HOME="/Users/milex/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
