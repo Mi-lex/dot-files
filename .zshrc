@@ -1,4 +1,4 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+ Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -188,10 +188,10 @@ alias mnstop="sudo sytemctl stop mongod"
 # Docker
 alias dgrep="docker ps | grep"
 
-export CODES_PATH="~/Documents/codes"
+export PROJECTS_PATH="~/Documents/projects"
 
 # Project specific
-alias start_corgi_services="cd $CODES_PATH/deploy-local && docker-compose up"
+alias start_corgi_services="cd $PROJECTS_PATH/deploy-local && docker-compose up"
 
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
