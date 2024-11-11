@@ -184,18 +184,21 @@ alias start_corgi_services="cd $PROJECTS_PATH/deploy-local && docker-compose up"
 
 export WORK_PATH="~/Documents/corgi"
 export BLOCKCHAIN_PATH="$WORK_PATH/blockchain"
+export BCH_MONOREPO_PATH="$WORK_PATH/bch-monorepo"
+export BCH_MONOREPO_APPS_PATH="$WORK_PATH/bch-monorepo/apps"
 
 # Aliases
-alias code_daemons="code $BLOCKCHAIN_PATH/daemons"
-alias code_sender="code $BLOCKCHAIN_PATH/tx-sender"
-alias code_bchprovider="code $BLOCKCHAIN_PATH/blockchain-provider"
-alias code_chain_clients="code $BLOCKCHAIN_PATH/chains-client"
-alias code_money-hound="code $BLOCKCHAIN_PATH/money-hound"
-alias code_generator="code $BLOCKCHAIN_PATH/address-generator"
-alias code_confirmations="code $BLOCKCHAIN_PATH/confirmations"
-alias code_daemon_controller="code $BLOCKCHAIN_PATH/daemon-controller"
-alias code_daemon_worker="code $BLOCKCHAIN_PATH/daemon-worker"
-alias code_utxo_source="code $BLOCKCHAIN_PATH/internal-utxo-source"
+alias code_daemons="cursor $BLOCKCHAIN_PATH/daemons"
+alias code_sender="cursor $BLOCKCHAIN_PATH/tx-sender"
+alias code_bchprovider="cursor $BLOCKCHAIN_PATH/blockchain-provider"
+alias code_chain_clients="cursor $BCH_MONOREPO_APPS_PATH/chains-client"
+alias code_money-hound="cursor $BLOCKCHAIN_PATH/money-hound"
+alias code_generator="cursor $BLOCKCHAIN_PATH/address-generator"
+alias code_confirmations="cursor $BCH_MONOREPO_APPS_PATH/confirmations"
+alias code_daemon_controller="cursor $BCH_MONOREPO_APPS_PATH/daemon-controller"
+alias code_daemon_worker="cursor $BLOCKCHAIN_PATH/daemon-worker"
+alias code_utxo_source="cursor $BCH_MONOREPO_APPS_PATH/internal-utxo-source"
+alias code_monorepo="cursor $BLOCKCHAIN_PATH/bch-monorepo"
 alias suggest="gh copilot suggest -- bash"
 alias lintf="npm run lint:fix"
 alias startd="npm run start:dev"
@@ -294,15 +297,9 @@ fi
 # export PATH="$PYENV_ROOT/bin:$PATH"
 # eval "$(pyenv init -)"
 
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
 
 # Alias to use config for syncing with repo
 alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
+eval "$(pyenv init --path)"
 
