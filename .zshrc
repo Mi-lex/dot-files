@@ -8,6 +8,7 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export KUBECONFIG="/Users/milex/.kube/alt-dev.yaml:/Users/milex/.kube/shimbo-prod.json:/Users/milex/.kube/dev.json:/Users/milex/.kube/simpleswap-prod.json:/Users/milex/.kube/kyc-prod.yaml"
 
 # Detect the platform (similar to $OSTYPE)
 OS="`uname`"
@@ -129,6 +130,7 @@ plugins=(
   macos
   colorize
   vi-mode
+  pnpm-shell-completion
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -184,21 +186,30 @@ alias start_corgi_services="cd $PROJECTS_PATH/deploy-local && docker-compose up"
 
 export WORK_PATH="~/Documents/corgi"
 export BLOCKCHAIN_PATH="$WORK_PATH/blockchain"
-export BCH_MONOREPO_PATH="$WORK_PATH/bch-monorepo"
-export BCH_MONOREPO_APPS_PATH="$WORK_PATH/bch-monorepo/apps"
+export BCH_MONOREPO_PATH="$BLOCKCHAIN_PATH/bch-monorepo"
+export MY_MAIN_EDITOR="code"
 
 # Aliases
-alias code_daemons="cursor $BLOCKCHAIN_PATH/daemons"
-alias code_sender="cursor $BLOCKCHAIN_PATH/tx-sender"
-alias code_bchprovider="cursor $BLOCKCHAIN_PATH/blockchain-provider"
-alias code_chain_clients="cursor $BCH_MONOREPO_APPS_PATH/chains-client"
-alias code_money-hound="cursor $BLOCKCHAIN_PATH/money-hound"
-alias code_generator="cursor $BLOCKCHAIN_PATH/address-generator"
-alias code_confirmations="cursor $BCH_MONOREPO_APPS_PATH/confirmations"
-alias code_daemon_controller="cursor $BCH_MONOREPO_APPS_PATH/daemon-controller"
-alias code_daemon_worker="cursor $BLOCKCHAIN_PATH/daemon-worker"
-alias code_utxo_source="cursor $BCH_MONOREPO_APPS_PATH/internal-utxo-source"
-alias code_monorepo="cursor $BLOCKCHAIN_PATH/bch-monorepo"
+declare -A monorepo_apps=(
+  [daemon_worker]="daemon-worker"
+  [daemon_controller]="daemon-controller"
+  [d-controller]="d-controller"
+  [user-deposit]="user-deposit"
+  [sender]="tx-sender"
+  [event-handler]="event-handler"
+  [compliance]="compliance"
+  [mempool]="mempool"
+  [bchprovider]="blockchain-provider"
+  [chain_clients]="chains-client"
+  [generator]="address-generator"
+  [confirmations]="confirmations"
+)
+
+for key in "${(@k)monorepo_apps}"; do
+  alias "code_$key"="$MY_MAIN_EDITOR $BCH_MONOREPO_PATH/apps/${monorepo_apps[$key]}"
+done
+
+alias code_monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain-clean"
 alias suggest="gh copilot suggest -- bash"
 alias lintf="npm run lint:fix"
 alias startd="npm run start:dev"
@@ -303,3 +314,4 @@ alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 eval "$(pyenv init --path)"
 
+. "/Users/milex/.deno/env"
