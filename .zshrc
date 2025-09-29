@@ -209,7 +209,8 @@ for key in "${(@k)monorepo_apps}"; do
   alias "code_$key"="$MY_MAIN_EDITOR $BCH_MONOREPO_PATH/apps/${monorepo_apps[$key]}"
 done
 
-alias code_monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain-clean"
+alias code_monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain_monorepo"
+alias monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain_monorepo"
 alias suggest="gh copilot suggest -- bash"
 alias lintf="npm run lint:fix"
 alias startd="npm run start:dev"
@@ -314,4 +315,10 @@ alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 eval "$(pyenv init --path)"
 
-. "/Users/milex/.deno/env"
+# . "/Users/milex/.deno/env"
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# KeyBindings
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
