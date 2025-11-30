@@ -24,3 +24,6 @@ endif
 
 " Personal settings
 set relativenumber
+
+set keymap=russian-jcukenwin
+
