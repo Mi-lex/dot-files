@@ -323,9 +323,8 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
 
-eval "$(direnv hook bash)"
-
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/milex/.lmstudio/bin"
 # End of LM Studio CLI section
 
+export PATH="$HOME/go/bin:$PATH"
