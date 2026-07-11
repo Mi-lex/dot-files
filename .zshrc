@@ -5,159 +5,136 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export KUBECONFIG="/Users/milex/.kube/alt-dev.yaml:/Users/milex/.kube/shimbo-prod.json:/Users/milex/.kube/dev.json:/Users/milex/.kube/simpleswap-prod.json:/Users/milex/.kube/kyc-prod.yaml"
+# =============================================================================
+# Helpers
+# =============================================================================
 
-# Detect the platform (similar to $OSTYPE)
-OS="`uname`"
-case $OS in
-  'Linux')
-    OS='Linux'
+path_prepend() {
+  [[ -n "$1" ]] || return 0
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) export PATH="$1:$PATH" ;;
+  esac
+}
+
+path_append() {
+  [[ -n "$1" ]] || return 0
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) export PATH="$PATH:$1" ;;
+  esac
+}
+
+zsh_warn() {
+  [[ -o interactive ]] || return 0
+  print -u2 "zsh warning: $*"
+}
+
+# =============================================================================
+# Platform
+# =============================================================================
+
+OS="$(uname)"
+case "$OS" in
+  Linux)
+    OS="Linux"
     alias ls='ls --color=auto'
     ;;
-  'FreeBSD')
-    OS='FreeBSD'
+  FreeBSD)
+    OS="FreeBSD"
     alias ls='ls -G'
     ;;
-  'WindowsNT')
-    OS='Windows'
+  WindowsNT)
+    OS="Windows"
     ;;
-  'Darwin') 
-    OS='Mac'
+  Darwin)
+    OS="Mac"
     ;;
-  'SunOS')
-    OS='Solaris'
+  SunOS)
+    OS="Solaris"
     ;;
-  'AIX') ;;
-  *) ;;
 esac
+export OS
 
+# =============================================================================
+# Environment and PATH
+# =============================================================================
 
-# NVM
-export NVM_DIR=~/.nvm
-if [[ OS == "Mac" ]]
-then
-  # The package is installed
-  source $(brew --prefix nvm)/nvm.sh
-fi
+export HOME_PATH="$HOME"
+export PROJECTS_PATH="$HOME/Documents/projects"
+export WORK_PATH="$HOME/Documents/corgi"
+export BLOCKCHAIN_PATH="$WORK_PATH/blockchain"
+export BCH_MONOREPO_PATH="$BLOCKCHAIN_PATH/bch-monorepo"
+export MY_MAIN_EDITOR="code"
 
+export KUBECONFIG="$HOME/.kube/alt-dev.yaml:$HOME/.kube/shimbo-prod.json:$HOME/.kube/dev.json:$HOME/.kube/simpleswap-prod.json:$HOME/.kube/kyc-prod.yaml"
 
-export HOME_PATH="/Users/milex"
-# Path to your oh-my-zsh installation.
+path_append "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+path_prepend "$HOME/.local/bin"
+path_prepend "$HOME/go/bin"
+path_append "$HOME/.lmstudio/bin"
+
+export PNPM_HOME="$HOME/Library/pnpm"
+path_prepend "$PNPM_HOME"
+
+export BUN_INSTALL="$HOME/.bun"
+path_prepend "$BUN_INSTALL/bin"
+
+# =============================================================================
+# Oh My Zsh
+# =============================================================================
+
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
   git
-  nvm 
-  npm 
+  npm
   node
-  yarn 
-  ubuntu 
-  docker 
+  yarn
+  ubuntu
+  docker
   zsh-syntax-highlighting
-  zsh-autosuggestions 
+  zsh-autosuggestions
   aws
   kubectl
   macos
   colorize
   vi-mode
   pnpm-shell-completion
+  autoupdate
 )
 
-source $ZSH/oh-my-zsh.sh
+if [[ -s "$ZSH/oh-my-zsh.sh" ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+else
+  zsh_warn "oh-my-zsh not found at $ZSH"
+fi
 
-# User configuration
+# =============================================================================
+# Aliases
+# =============================================================================
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-
-# Example aliases
 alias zshconfig="vim ~/.zshrc"
+alias zshreload="source ~/.zshrc"
+alias szsh="source ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias snippets="vim ~/.snippets"
 alias guides="vim ~/.guides"
+alias oo="opencode ."
+alias ooempty="cd $PROJECTS_PATH/empty && opencode ."
+alias emptyopencode="cd $PROJECTS_PATH/empty && opencode ."
+alias opencodeconfig="vim ~/.config/opencode/opencode.json"
+alias ghostconfig='vim "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"'
+alias suggest="gh copilot suggest -- bash"
+alias lintf="npm run lint:fix"
+alias startd="npm run start:dev"
+alias llmconfig="code ~/llm-configs"
 
-# Git aliases
+# Dotfiles bare repository helper.
+alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
+# Git.
 alias gi="git init"
 alias gs="git status -sbu"
 alias gco="git checkout"
@@ -166,7 +143,7 @@ alias gp="git push"
 alias gm="git merge"
 alias ga="git add ."
 alias gcm="git commit -m"
-alias gfp="git fetch && get pull"
+alias gfp="git fetch && git pull"
 alias gst="git stash"
 alias gstl="git stash list"
 alias glg='git log --graph --oneline --decorate --all'
@@ -174,22 +151,21 @@ alias gcdev='git checkout develop'
 alias gpuh='git push -u origin HEAD'
 alias gback='git checkout -'
 
-# Docker
+# Docker.
 alias dgrep="docker ps | grep"
 
-export PROJECTS_PATH="~/Documents/projects"
+# Claude.
+alias claude-dev-ce='claude --plugin-dir ~/code/compound-engineering-plugin/plugins/compound-engineering'
+claude() {
+  HTTPS_PROXY="$CLAUDE_HTTPS_PROXY" command claude "$@"
+}
 
-# Project specific
+# =============================================================================
+# Project-specific
+# =============================================================================
+
 alias start_corgi_services="cd $PROJECTS_PATH/deploy-local && docker-compose up"
 
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-
-export WORK_PATH="~/Documents/corgi"
-export BLOCKCHAIN_PATH="$WORK_PATH/blockchain"
-export BCH_MONOREPO_PATH="$BLOCKCHAIN_PATH/bch-monorepo"
-export MY_MAIN_EDITOR="code"
-
-# Aliases
 declare -A monorepo_apps=(
   [daemon_worker]="daemon-worker"
   [daemon_controller]="daemon-controller"
@@ -211,120 +187,97 @@ done
 
 alias code_monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain_monorepo"
 alias monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain_monorepo"
-alias suggest="gh copilot suggest -- bash"
-alias lintf="npm run lint:fix"
-alias startd="npm run start:dev"
 
-# Evals
-eval "$(zoxide init --cmd cd zsh)"
+# Quick SQLite query on remote server.
+dbq() {
+  ssh macbook-server "sqlite3 /Users/sharingan/.openclaw/workspace/repos/blockchain/apps/balance-crawler/database.sqlite \"$1\""
+}
+
+# =============================================================================
+# Tools
+# =============================================================================
+
+# NVM.
+export NVM_DIR="$HOME/.nvm"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  source "$NVM_DIR/nvm.sh"
+elif [[ "$OS" == "Mac" ]] && command -v brew >/dev/null 2>&1; then
+  nvm_prefix="$(brew --prefix nvm 2>/dev/null)"
+  [[ -s "$nvm_prefix/nvm.sh" ]] && source "$nvm_prefix/nvm.sh"
+  unset nvm_prefix
+fi
+[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+
+# GVM.
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+
+# Google Cloud SDK.
+export GOOGLE_SDK_PATH="$HOME/Downloads/google-cloud-sdk"
+[[ -f "$GOOGLE_SDK_PATH/path.zsh.inc" ]] && source "$GOOGLE_SDK_PATH/path.zsh.inc"
+[[ -f "$GOOGLE_SDK_PATH/completion.zsh.inc" ]] && source "$GOOGLE_SDK_PATH/completion.zsh.inc"
+
+# Bun completions.
+[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
+
+# pyenv.
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init - zsh)"
+fi
+
+# =============================================================================
+# Keybindings
+# =============================================================================
+
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
+# =============================================================================
+# Validation
+# =============================================================================
+
+zsh_validate_env() {
+  [[ "${ZSH_VALIDATE_ENV:-1}" == "1" ]] || return 0
+
+  local name value kube_file
+  for name in HOME_PATH PROJECTS_PATH WORK_PATH BLOCKCHAIN_PATH BCH_MONOREPO_PATH MY_MAIN_EDITOR KUBECONFIG PNPM_HOME BUN_INSTALL; do
+    value="${(P)name}"
+    [[ -n "$value" ]] || zsh_warn "$name is not set"
+  done
+
+  if [[ -n "$KUBECONFIG" ]]; then
+    for kube_file in "${(@ps/:/)KUBECONFIG}"; do
+      [[ -f "$kube_file" ]] || zsh_warn "KUBECONFIG file not found: $kube_file"
+    done
+  fi
+
+  command -v zoxide >/dev/null 2>&1 || zsh_warn "zoxide is not installed; cd history jump will not work"
+  command -v pyenv >/dev/null 2>&1 || zsh_warn "pyenv is not installed; Python version switching will not work"
+
+  if [[ -z "$CLAUDE_HTTPS_PROXY" ]]; then
+    zsh_warn "CLAUDE_HTTPS_PROXY is not set; claude will run without proxy"
+  fi
+}
+
+zsh_validate_env
+
+# =============================================================================
+# Prompt and final hooks
+# =============================================================================
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-export GOOGLE_SDK_PATH="$HOME_PATH/Downloads/google-cloud-sdk"
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$GOOGLE_SDK_PATH/path.zsh.inc" ]; then . "$GOOGLE_SDK_PATH/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$GOOGLE_SDK_PATH/completion.zsh.inc" ]; then . "$GOOGLE_SDK_PATH/completion.zsh.inc"; fi
-
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-###-begin-npm-completion-###
-#
-# npm command completion script
-#
-# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
-#
-
-if type complete &>/dev/null; then
-  _npm_completion () {
-    local words cword
-    if type _get_comp_words_by_ref &>/dev/null; then
-      _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
-    else
-      cword="$COMP_CWORD"
-      words=("${COMP_WORDS[@]}")
-    fi
-
-    local si="$IFS"
-    if ! IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-                           COMP_LINE="$COMP_LINE" \
-                           COMP_POINT="$COMP_POINT" \
-                           npm completion -- "${words[@]}" \
-                           2>/dev/null)); then
-      local ret=$?
-      IFS="$si"
-      return $ret
-    fi
-    IFS="$si"
-    if type __ltrim_colon_completions &>/dev/null; then
-      __ltrim_colon_completions "${words[cword]}"
-    fi
-  }
-  complete -o default -F _npm_completion npm
-elif type compdef &>/dev/null; then
-  _npm_completion() {
-    local si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 npm completion -- "${words[@]}" \
-                 2>/dev/null)
-    IFS=$si
-  }
-  compdef _npm_completion npm
-elif type compctl &>/dev/null; then
-  _npm_completion () {
-    local cword line point words si
-    read -Ac words
-    read -cn cword
-    let cword-=1
-    read -l line
-    read -ln point
-    si="$IFS"
-    if ! IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-                       COMP_LINE="$line" \
-                       COMP_POINT="$point" \
-                       npm completion -- "${words[@]}" \
-                       2>/dev/null)); then
-
-      local ret=$?
-      IFS="$si"
-      return $ret
-    fi
-    IFS="$si"
-  }
-  compctl -K _npm_completion npm
+# zoxide should stay near the end of the shell configuration.
+export _ZO_DOCTOR=0
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init --cmd cd zsh)"
 fi
-###-end-npm-completion-###
-
-# export PYENV_ROOT="$HOME/.pyenv"
-# export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
-
-
-# Alias to use config for syncing with repo
-alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
-
-eval "$(pyenv init --path)"
-
-# . "/Users/milex/.deno/env"
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# KeyBindings
-bindkey -M vicmd "k" up-line-or-beginning-search
-bindkey -M vicmd "j" down-line-or-beginning-search
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/milex/.lmstudio/bin"
 # End of LM Studio CLI section
 
-export PATH="$HOME/go/bin:$PATH"
