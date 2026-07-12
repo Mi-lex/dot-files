@@ -1,3 +1,6 @@
+# Some envs
+export XDG_CONFIG_HOME=$HOME
+#
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -126,6 +129,7 @@ alias ooempty="cd $PROJECTS_PATH/empty && opencode ."
 alias emptyopencode="cd $PROJECTS_PATH/empty && opencode ."
 alias opencodeconfig="vim ~/.config/opencode/opencode.json"
 alias ghostconfig='vim "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"'
+alias ghosttyconfig='vim "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"'
 alias suggest="gh copilot suggest -- bash"
 alias lintf="npm run lint:fix"
 alias startd="npm run start:dev"
