@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "@mohak34/opencode-notifier@latest",
+    "opencode-log-sanitizer"
+  ],
+  "provider": {
+    "alibaba": {
+      "options": {
+        "baseURL": "https://ws-hzelojgw3vzzq1ob.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+      },
+      "models": {
+        "qwen3.7-max-2026-05-20": {
+          "name": "Qwen 3.7 Max additional"
+        },
+        "deepseek-v4-pro": {
+          "name": "Alibaba deepskeek-pro"
+        },
+        "deepseek-v4-flash": {
+          "name": "Alibaba deepskeek-flash"
+        }
+      }
+    }
+  },
+  "agent": {
+    "explore": {
+      "mode": "subagent",
+      "model": "GPT-5.6 Luna"
+    },
+    "scout": {
+      "mode": "subagent",
+      "model": "GPT-5.6 Luna"
+    }
+  }
+}
