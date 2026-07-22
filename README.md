@@ -1,19 +1,65 @@
-# Configuration
+# Dotfiles
 
-## Configurable components
+Personal configuration managed with Git and [GNU Stow](https://www.gnu.org/software/stow/).
 
-* [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh/)
-* [tmux](https://github.com/tmux/tmux)
-* [zohide](https://github.com/ajeetdsouza/zoxide)
-* vim
+## Packages
 
-Inspired by [how to store dot files tutorial](https://www.atlassian.com/git/tutorials/dotfiles)
+- `ghostty`
+- `nvim`
+- `opencode`
+- `tmux`
+- `vim`
+- `zsh`
 
-## Usage
-```shell
-git clone --bare https://github.com/Mi-lex/dot-files.git $HOME/.cfg
+Each package mirrors its destination path relative to `$HOME`. Stow keeps the
+files in this repository and creates symlinks in the home directory.
 
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+## macOS Setup
 
-config checkout
+Install Stow with Homebrew:
+
+```sh
+brew install stow
+```
+
+Clone the repository:
+
+```sh
+git clone git@github.com:Mi-lex/dot-files.git "$HOME/.dotfiles"
+cd "$HOME/.dotfiles"
+```
+
+Preview changes before creating symlinks:
+
+```sh
+stow --simulate --verbose --no-folding --target="$HOME" \
+  ghostty nvim opencode tmux vim zsh
+```
+
+Install all packages:
+
+```sh
+stow --no-folding --target="$HOME" ghostty nvim opencode tmux vim zsh
+```
+
+Install or remove one package:
+
+```sh
+stow --no-folding --target="$HOME" nvim
+stow --delete --target="$HOME" nvim
+```
+
+After adding, moving, or removing files in a package, refresh its symlinks:
+
+```sh
+stow --restow --no-folding --target="$HOME" nvim
+```
+
+## OpenCode
+
+Run OpenCode from the repository root so it uses the dotfiles workspace rather
+than the entire home directory:
+
+```sh
+opencode "$HOME/.dotfiles"
 ```
