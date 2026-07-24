@@ -194,11 +194,6 @@ alias code_monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain_monorepo"
 alias monorepo="$MY_MAIN_EDITOR $BLOCKCHAIN_PATH/blockchain_monorepo"
 alias cdrepo="cd $BLOCKCHAIN_PATH/blockchain_monorepo"
 
-# Quick SQLite query on remote server.
-dbq() {
-  ssh macbook-server "sqlite3 /Users/sharingan/.openclaw/workspace/repos/blockchain/apps/balance-crawler/database.sqlite \"$1\""
-}
-
 # =============================================================================
 # Tools
 # =============================================================================
