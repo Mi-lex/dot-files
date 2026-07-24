@@ -55,6 +55,29 @@ After adding, moving, or removing files in a package, refresh its symlinks:
 stow --restow --no-folding --target="$HOME" nvim
 ```
 
+## Secret Scanning
+
+GitHub Actions runs Gitleaks against the full repository history on every push
+and pull request.
+
+Install the CLI on macOS:
+
+```sh
+brew install gitleaks
+```
+
+Scan the full history locally:
+
+```sh
+gitleaks git --redact .
+```
+
+Scan staged changes before committing:
+
+```sh
+gitleaks git --staged --redact .
+```
+
 ## OpenCode
 
 Run OpenCode from the repository root so it uses the dotfiles workspace rather
