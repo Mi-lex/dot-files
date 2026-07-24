@@ -136,8 +136,8 @@ alias lintf="npm run lint:fix"
 alias startd="npm run start:dev"
 alias llmconfig="code ~/llm-configs"
 
-# Dotfiles bare repository helper.
-alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+# Dotfiles repository helper.
+alias config='/usr/bin/git -C "$HOME/.dotfiles"'
 
 # Git.
 alias gi="git init"
