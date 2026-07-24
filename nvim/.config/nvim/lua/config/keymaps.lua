@@ -22,3 +22,6 @@ vim.keymap.set("n", "gh", function()
 end, { desc = "Hover (diagnostics / LSP)" })
 
 vim.keymap.set("n", "<D-o>", LazyVim.pick("files"), { desc = "Find Files (Root Dir)" })
+
+vim.keymap.set("n", "<leader>e", "<leader>fE", { remap = true, desc = "Explorer Snacks (cwd)" })
+vim.keymap.set("n", "<leader>E", "<leader>fe", { remap = true, desc = "Explorer Snacks (root dir)" })
